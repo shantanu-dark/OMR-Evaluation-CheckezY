@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OMR Sheet Evaluator</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 40px; background: #f0f0f0; }
+        .container { background: #fff; padding: 30px; border-radius: 10px; display: inline-block; }
+        .score { font-size: 24px; margin-top: 20px; color: green; }
+        .camera-btn { font-size: 20px; padding: 10px; background-color: #4CAF50; color: white; border: none; cursor: pointer; border-radius: 5px; }
+        .camera-btn:hover { background-color: #45a049; }
+        #video { max-width: 100%; border-radius: 10px; }
+        #capture-btn { background-color: #2196F3; }
+        #capture-btn:hover { background-color: #0b7dda; }
+        #image-capture { display: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>OMR Sheet Evaluator</h1>
+
+        <!-- File Upload -->
+        <form method="POST" enctype="multipart/form-data">
+            <div>
+                <input type="file" name="omr" accept="image/*" required><br><br>
+                <input type="text" name="answers" placeholder="Correct answers e.g. 1,2,0,3,4" required><br><br>
+                <input type="submit" value="Evaluate"><br><br>
+            </div>
+        </form>
+
+        <hr>
+
+        <!-- Camera Capture Section -->
+        <button class="camera-btn" id="camera-btn" onclick="startCamera()">📸 Start Camera</button><br><br>
+        
+        <video id="video" width="300" height="225" autoplay></video><br><br>
+        <button id="capture-btn" class="camera-btn" onclick="captureImage()" style="display: none;">Capture Image</button><br><br>
+
+        <form method="POST" id="capture-form" enctype="multipart/form-data" style="display: none;">
+            <input type="hidden" name="captured_image" id="captured-image" />
+            <input type="text" name="answers" placeholder="Correct answers e.g. 1,2,0,3,4" required><br><br>
+            <input type="submit" value="Evaluate Captured Image"><br><br>
+        </form>
+
+        {% if score is not none %}
+            <div class="score">Score: {{ score }}%</div><br>
+            <img src="{{ url_for('static', filename='result.jpg') }}" width="600">
+        {% endif %}
+    </div>
+
+    <script>
+        let video = document.getElementById('video');
+        let captureBtn = document.getElementById('capture-btn');
+        let captureForm = document.getElementById('capture-form');
+        let capturedImageInput = document.getElementById('captured-image');
+        let cameraBtn = document.getElementById('camera-btn');
+
+        // Start the camera feed
+        function startCamera() {
+            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                navigator.mediaDevices.getUserMedia({ video: true })
+                    .then(function (stream) {
+                        video.srcObject = stream;
+                        video.style.display = 'block';
+                        captureBtn.style.display = 'block';
+                    })
+                    .catch(function (err) {
+                        console.log("Something went wrong with the camera: ", err);
+                    });
+            } else {
+                alert("Camera not available.");
+            }
+        }
+
+        // Capture the image and send to the form
+        function captureImage() {
+            let canvas = document.createElement('canvas');
+            let context = canvas.getContext('2d');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            let dataUrl = canvas.toDataURL('image/jpeg');
+
+            capturedImageInput.value = dataUrl;
+            captureForm.style.display = 'block';
+        }
+    </script>
+</body>
+</html>

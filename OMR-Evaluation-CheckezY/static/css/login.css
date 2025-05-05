@@ -1,0 +1,91 @@
+/* General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Full page styling */
+body, html {
+    height: 100%;
+    width: 100%;
+}
+
+/* Set the background color instead of an image */
+body {
+    background-color: #e0f7fa; /* Light blue color as in the previous design */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+}
+
+/* Login container styles */
+.login-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Form Box */
+.form-box {
+    background-color: rgba(255, 255, 255, 0.9); /* White background with opacity */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 400px;
+}
+
+/* Heading style */
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Form elements */
+form label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+form input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Submit button */
+.login-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff; /* Blue color */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.login-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Signup link */
+p {
+    text-align: center;
+    font-size: 14px;
+}
+
+p a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+p a:hover {
+    text-decoration: underline;
+}

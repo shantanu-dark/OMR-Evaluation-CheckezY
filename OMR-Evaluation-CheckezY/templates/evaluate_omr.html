@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OMR Evaluation</title>
+    <style>
+        /* General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Full page styling */
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 40px;
+    background-color: #e0f7fa; /* Light blue background */
+}
+
+.container {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 15px;
+    display: inline-block;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+    overflow: hidden; /* Prevent overflow */
+}
+
+/* Title */
+h3 {
+    font-size: 32px;
+    color: #00796b;
+    margin-bottom: 20px;
+}
+
+/* Form elements */
+form label {
+    display: block;
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #00796b;
+}
+
+form input {
+    width: 100%;
+    padding: 15px;
+    margin: 15px 0;
+    border: 1px solid #00796b;
+    border-radius: 8px;
+    font-size: 18px;
+}
+
+/* Buttons */
+button, .camera-btn {
+    font-size: 20px;
+    padding: 12px 24px;
+    background-color: #00796b;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+button:hover, .camera-btn:hover {
+    background-color: #004d40;
+    transform: scale(1.05);
+}
+
+/* Evaluation Results */
+.score {
+    font-size: 24px;
+    margin-top: 20px;
+    color: green;
+    animation: fadeIn 2s ease-out;
+}
+
+/* Image Styles */
+img {
+    width: 100%; /* Ensure the image takes the full width of the container */
+    max-height: 400px; /* Adjust the max-height to prevent large images from breaking the layout */
+    object-fit: contain; /* Ensure the image is fully visible without being cropped */
+    border-radius: 10px;
+    margin-top: 20px;
+    /* Animation for Heading */
+    animation: fadeIn 2s ease-out;
+
+}
+
+/* Go Back Button */
+.go-back-btn {
+    background-color: #f44336;
+    margin-top: 20px;
+}
+
+.go-back-btn:hover {
+    background-color: #d32f2f;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    form input {
+        font-size: 16px;
+    }
+
+    button, .camera-btn {
+        font-size: 18px;
+        padding: 10px 20px;
+    }
+
+    h3 {
+        font-size: 28px;
+    }
+}
+
+    </style>
+</head>
+<body>
+
+<!-- OMR Evaluation Page -->
+<div id="omr-evaluation-page" class="container">
+    <h3>OMR Evaluation</h3>
+
+    <!-- OMR File Upload Form -->
+    <form method="POST" enctype="multipart/form-data">
+        <label for="omr">Upload OMR Sheet (JPEG/PNG):</label>
+        <input type="file" name="omr" required>
+        
+        <label for="answers">Correct Answers (comma-separated):</label>
+        <input type="text" name="answers" placeholder="1,2,3,4,5" required>
+
+        <button type="submit">Evaluate OMR</button>
+    </form>
+
+    {% if score is not none %}
+        <div id="result-summary">
+            <h4>Evaluation Results:</h4>
+            <p class="score">Score: {{ score }}%</p>
+            <img src="{{ url_for('static', filename='result.jpg') }}" alt="OMR Result" />
+        </div>
+    {% endif %}
+
+    <button onclick="window.location.href='/dashboard'" class="go-back-btn">Go Back to Dashboard</button>
+</div>
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+</html>
